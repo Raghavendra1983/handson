@@ -1,0 +1,29 @@
+{
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react",
+        "@babel/preset-typescript"
+    ],
+    "plugins": [
+        "@babel/plugin-transform-runtime",
+        [
+            "module-resolver",
+            {
+                "root": [
+                    "."
+                ],
+                "alias": {
+                    "@components": "./src/components",
+                    "@pages": "./src/Pages",
+                    "@layout": "./src/Layout",
+                    "@assets": "./src/assets",
+                    "utils": "./src/utils",
+                    "types": "./src/types",
+                    "context": "./src/context",
+                    "hooks": "./src/hooks",
+                    "reducers": "./src/reducers"
+                }
+            }
+        ]
+    ]
+}

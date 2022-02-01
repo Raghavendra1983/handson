@@ -1,0 +1,82 @@
+{
+  "name": "css-corp-batch-2",
+  "version": "0.0.1",
+  "description": "react and javascript training",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack serve --open",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imyagnesh/css-corp-batch-2.git"
+  },
+  "keywords": [
+    "react",
+    "javascript",
+    "es6"
+  ],
+  "author": "Yagnesh Modh (yagnesh.modh@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imyagnesh/css-corp-batch-2/issues"
+  },
+  "homepage": "https://github.com/imyagnesh/css-corp-batch-2#readme",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/eslint-parser": "^7.16.3",
+    "@babel/plugin-transform-runtime": "^7.16.5",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.7",
+    "@svgr/webpack": "^6.2.0",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-router-dom": "^5.3.2",
+    "@typescript-eslint/parser": "^5.9.1",
+    "autoprefixer": "^10.4.0",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "css-loader": "^6.5.1",
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb": "^19.0.2",
+    "eslint-import-resolver-babel-module": "^5.3.1",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "html-webpack-plugin": "^5.5.0",
+    "json-server": "^0.17.0",
+    "json-server-auth": "^2.1.0",
+    "mini-css-extract-plugin": "^2.4.5",
+    "postcss": "^8.4.5",
+    "postcss-cli": "^9.1.0",
+    "postcss-loader": "^6.2.1",
+    "prettier": "2.5.1",
+    "sass": "^1.44.0",
+    "sass-loader": "^12.4.0",
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^3.0.13",
+    "typescript": "^4.5.4",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
+    "axios": "^0.25.0",
+    "classnames": "^2.3.1",
+    "date-fns": "^2.27.0",
+    "express": "^4.17.2",
+    "formik": "^2.2.9",
+    "mime": "^3.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "6",
+    "yup": "0.32.11"
+  }
+}
