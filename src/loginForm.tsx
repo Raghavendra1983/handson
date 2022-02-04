@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
+import { useForm } from "react-hook-form";
 import './App.css';
 import { Form, TextField, SelectField, SubmitButton, GenericField } from './FormElements';
 import * as Yup from 'yup';
+import axiosInstance from '../utils/axios';
+import { LoginInitValuesType } from '../types/authTypes';
+import Error from './component/errorComponent';
+import loginReducer from 'reducers/loginReducer';
+import { Formik, validateYupSchema } from 'formik';
 
 interface nameType {
     type: string;
@@ -20,7 +26,6 @@ interface optionsType {
 interface loginFormSchemaType {
     [key: string]: (nameType & optionsType)
 }
-let globalValidationSchema = {};
 
 const loginFormSchema: loginFormSchemaType = {
     email: {
@@ -72,6 +77,8 @@ interface _validationSchemaType {
 function Login(): JSX.Element {
     const [formData, setFormData] = useState({});
     const [validationSchema, setValidationSchema] = useState({});
+    const [errorMessage, setErrorMessage] = useState('');
+    const { register, formState: { errors }, handleSubmit, clearErrors } = useForm();
 
     useEffect(() => {
         initForm(loginFormSchema);
@@ -93,11 +100,11 @@ function Login(): JSX.Element {
             }*/
 
             if (formSchema[key].required) {
-                _validationSchema[key] = _validationSchema[key].required('Required');
+                _validationSchema[key] = _validationSchema[key].required('This field is required');
             }
         }
 
-        //setFormData(_formData);
+        setFormData(_formData);
         setValidationSchema(Yup.object().shape({ ..._validationSchema }));
         //globalValidationSchema = Yup.object().shape({ ..._validationSchema });
     }
@@ -128,27 +135,39 @@ function Login(): JSX.Element {
 
     }
 
-    const onSubmit = (values: any, { setSubmitting, resetForm, setStatus }: any) => {
-        console.log(values);
-        setSubmitting(false);
+    const onLogin = async (values: any, { setSubmitting, resetForm, setStatus }: any) => {
+        setErrorMessage('');
+        const { remember_me, serverError, ...rest } = values;
+        try {
+            const res = await axiosInstance.post<LoginInitValuesType>('login', rest);
+            console.log(res);
+        }
+        catch (error) {
+            //console.log(error);
+            //showError.message = 'error';
+            setErrorMessage(String(error));
+        }
     }
 
     return (
-        <div className="flex flex-wrap -mx-1 bg-white rounded-lg justify-center shadow-2xl sm:w-full lg:w-1/2 ">
+        <div className="flex flex-wrap -mx-1 bg-white rounded-lg justify-center shadow-2xl w-full" onClick={() => setErrorMessage('')}>
 
             <Form
 
                 initialValues={formData}
                 validationSchema={validationSchema}
-                onSubmit={onSubmit}
+                onSubmit={onLogin}
             >
                 <>
+                    {errorMessage && <Error message={errorMessage} />}
 
                     {Object.keys(loginFormSchema).map((key, ind) => (
                         <div key={key}>
                             {getFormElement(key, loginFormSchema[key])}
                         </div>
+
                     ))}
+
                 </>
 
             </Form>
