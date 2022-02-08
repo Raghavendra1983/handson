@@ -6,7 +6,7 @@ type Props = {
     message: ''
 };
 
-const Error: FunctionComponent<PropsType> = (props): JSX.Element => {
+const Error: FunctionComponent<PropsType> = (props: PropsType): JSX.Element => {
     return <h5 className='text-red-500'>{props.message}</h5>;
 }
 

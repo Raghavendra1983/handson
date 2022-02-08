@@ -53,7 +53,7 @@ export function SelectField(props: { name: any; label: any; options: any; }) {
                 name={name}
             >
                 <option value="" >Choose...</option>
-                {options.map((optn: { value: string | number | readonly string[] | undefined; label: any; }, index: any) => <option value={optn.value} label={optn.label || optn.value} />)}
+                {options.map((optn: { code: string | number | readonly string[] | undefined; name: any; }, index: any) => <option value={optn.code} label={optn.name || optn.code} />)}
             </Field>
             <ErrorMessage name={name} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
         </>
