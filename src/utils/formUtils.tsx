@@ -15,7 +15,13 @@ export const initForm = (formSchema: loginFormSchemaType, setFormData: (arg0: _f
         } else if (formSchema[key].type === "email") {
             _validationSchema[key] = Yup.string().email()
         } else if (formSchema[key].type === "select") {
-            _validationSchema[key] = Yup.string().oneOf((formSchema[key]).options.map(o => o.value));
+            _validationSchema[key] = Yup.string();
+        } else if (formSchema[key].type === "a") {
+            _validationSchema[key] = Yup.string().url();
+        }
+
+        if (formSchema[key].id === "confirmPassword") {
+            _validationSchema[key] = Yup.string().oneOf([Yup.ref('password'), null], "Passwords must match");
         }
 
         if (formSchema[key].required) {
@@ -35,9 +41,9 @@ export const getFormElement = (elementName: string, elementSchema: nameType & op
         placeholder: elementSchema.placeholder,
         options: elementSchema.options,
         className: elementSchema.className,
-        onClick: elementSchema.onClick
+        onClick: elementSchema.onClick,
+        id: elementSchema.id
     };
-
 
 
     if (elementSchema.type === "select") {

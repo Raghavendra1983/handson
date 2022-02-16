@@ -13,21 +13,22 @@ const Register = (props: Props) => {
             label: "Name",
             placeholder: "Enter your full name",
             required: true,
-            className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className: "shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
         },
         email: {
             type: "email",
             label: "Email",
             placeholder: "Enter your email address",
             required: true,
-            className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className: "shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
         },
 
-        role: {
+        country: {
             type: "select",
             label: "Country",
             required: true,
             placeholder: "Select one",
+            className: 'shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3',
             options: [
                 { name: 'Afghanistan', code: 'AF' },
                 { name: 'Åland Islands', code: 'AX' },
@@ -274,7 +275,23 @@ const Register = (props: Props) => {
                 { name: 'Zimbabwe', code: 'ZW' }
             ]
         },
+        password: {
+            type: "password",
+            label: "Password",
+            placeholder: "Enter password",
+            required: true,
+            className: "shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
+        },
+        confirmPassword: {
+            id: "confirmPassword",
+            type: "password",
+            label: "Confirm Password",
+            placeholder: "Confirm Password",
+            required: true,
+            className: "shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
+        },
         button: {
+            id: "register",
             type: "submit",
             label: "Submit",
             placeholder: "",
@@ -282,7 +299,8 @@ const Register = (props: Props) => {
             //disabledClassName: 'btn-disabled',
             required: false
         },
-        input: {
+        reset: {
+            id: "reset",
             type: "button",
             label: "Clear error",
             placeholder: "",
@@ -306,8 +324,7 @@ const Register = (props: Props) => {
         console.log(values);
 
     }
-    return (<div className="flex flex-wrap -mx-1 bg-white rounded-lg justify-center shadow-2xl w-full">
-
+    return (
         <Form
 
             initialValues={formData}
@@ -317,17 +334,25 @@ const Register = (props: Props) => {
             <>
                 {errorMessage && <Error message={errorMessage} />}
 
-                {Object.keys(registerFormSchema).map((key, ind) => (
-                    <div key={key}>
-                        {getFormElement(key, registerFormSchema[key])}
-                    </div>
+                {Object.keys(registerFormSchema).map((key, ind) => {
+                    if (registerFormSchema[key].id === "register") {
+                        return (<div key={key} className="flex justify-between mt-3">
+                            {[getFormElement(key, registerFormSchema[key]),
+                            getFormElement("reset", registerFormSchema["reset"])]}
+                        </div>)
+                    } else if (registerFormSchema[key].id !== "reset") {
+                        return (<div key={key} >
+                            {getFormElement(key, registerFormSchema[key])}
+                        </div>)
 
-                ))}
+                    }
+
+                })}
 
             </>
         </Form>
 
-    </div>);
+    );
 };
 
 export default Register;

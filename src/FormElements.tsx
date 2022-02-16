@@ -13,8 +13,7 @@ import {
 } from 'formik';
 
 
-export function Form(props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }) {
-    console.log(props);
+export function Form(props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined }) {
     return (
         <Formik
             {...props}>
@@ -25,7 +24,7 @@ export function Form(props: { children: boolean | React.ReactChild | React.React
 }
 
 export function TextField(props: { [x: string]: any; name: any; label: any; placeholder: any; }) {
-    const { name, label, placeholder, ...rest } = props
+    const { name, label, placeholder, ...rest } = props;
     return (
         <>
             {label && <label htmlFor={name}>{label}</label>}
@@ -71,18 +70,22 @@ export function SubmitButton(props: { [x: string]: any; title: any; }) {
 export function GenericField(props: { [x: string]: any; type: any; name: any; label: any; placeholder: any; options: any; }) {
     const { type, name, label, className } = props;
     const { isValid } = useFormikContext();
-    const val = (type === "button" || type === "submit") ? label : '';
+    const val = (type === "button" || type === "submit") ? label : undefined;
+
     return (
         <>
-            {(!val && label) && <label htmlFor={name}>{label}</label>}
-            {(!val) && (
+            {(!val && label && type !== "a") && <label htmlFor={name}>{label}</label>}
+            {(type === "a") && <a href='#'>{label}</a>}
+
+
+            {(!val) && type !== "a" && (
                 <Field
                     id={name}
                     className={className}
                     {...props}
                 ></Field>)
             }
-            {(val) && (
+            {(val) && type !== "a" && (
                 <Field
                     id={name}
                     value={val}

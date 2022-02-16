@@ -17,13 +17,15 @@ export interface nameType {
     placeholder: string;
     required: boolean;
     className?: string,
+    id?: string,
     onClick?: () => void
 }
 export interface optionsObjectType {
     label?: string;
     value?: string;
     name?: string;
-    code?: string
+    code?: string,
+
 }
 export interface optionsType {
     options?: optionsObjectType[]
@@ -53,47 +55,30 @@ function Login(): JSX.Element {
             label: "Email",
             placeholder: "Enter your email address",
             required: true,
-            className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
         },
         password: {
             type: "password",
             label: "Password",
             placeholder: "Enter your password",
             required: true,
-            className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className: "shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
         },
-        /*role: {
-            type: "select",
-            label: "Role",
-            required: true,
-            placeholder: "Select one",
-            options: [
-                {
-                    label: "Admin",
-                    value: "admin"
-                },
-                {
-                    label: "User",
-                    value: "user"
-                }
-            ]
-        },*/
         button: {
+            id: "login",
             type: "submit",
             label: "Submit",
             placeholder: "",
             className: 'btn-primary',
-            //disabledClassName: 'btn-disabled',
             required: false
         },
-        input: {
-            type: "button",
-            label: "Clear error",
-            placeholder: "",
-            required: false,
+        a: {
+            id: "forget",
+            type: "a",
+            label: "Forgot your password",
             className: 'btn-secondary',
-            onClick: () => setErrorMessage('')
-
+            placeholder: "",
+            required: false
         }
     }
     useEffect(() => {
@@ -119,35 +104,45 @@ function Login(): JSX.Element {
             navigate('/home', { replace: true });
         }
         catch (error) {
-            //console.log(error);
+
             //showError.message = 'error';
             setErrorMessage(String(error));
         }
     }
 
     return (
-        <div className="flex flex-wrap -mx-1 bg-white rounded-lg justify-center shadow-2xl w-full">
 
-            <Form
 
-                initialValues={formData}
-                validationSchema={validationSchema}
-                onSubmit={onLogin}
-            >
-                <>
-                    {errorMessage && <Error message={errorMessage} />}
+        <Form
 
-                    {Object.keys(loginFormSchema).map((key, ind) => (
-                        <div key={key}>
-                            {getFormElement(key, loginFormSchema[key])}
-                        </div>
+            initialValues={formData}
+            validationSchema={validationSchema}
+            onSubmit={onLogin}
+        >
+            <>
+                {errorMessage && <Error message={errorMessage} />}
+                <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+                    <div className="mb-4">
 
-                    ))}
+                        {Object.keys(loginFormSchema).map((key, ind) => {
+                            console.log(ind);
+                            console.log(loginFormSchema[key]);
+                            if (loginFormSchema[key].id === "login") {
+                                return (<div key={key} className="flex justify-between mt-3">
+                                    {[getFormElement(key, loginFormSchema[key]),
+                                    getFormElement("a", loginFormSchema["a"])]}
 
-                </>
-            </Form>
-
-        </div>
+                                </div>)
+                            } else if (loginFormSchema[key].id !== "forget") {
+                                return (
+                                    getFormElement(key, loginFormSchema[key])
+                                )
+                            }
+                        })}
+                    </div>
+                </div>
+            </>
+        </Form>
     );
 }
 
