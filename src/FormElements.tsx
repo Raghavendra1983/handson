@@ -17,11 +17,20 @@ export function Form(props: { children: boolean | React.ReactChild | React.React
     return (
         <Formik
             {...props}>
-            <FormikForm className="needs-validation" >
-                {props.children}
-            </FormikForm>
-        </Formik>)
-}
+            {({ isValid, dirty, errors, isSubmitting }) => (
+                <FormikForm className="needs-validation" >
+                    {errors.serverError && (
+                        <p className="text-center text-red-500 text-lg">
+                            {errors.serverError}
+                        </p>
+                    )}
+                    {props.children}
+                </FormikForm>
+            )}
+        </Formik>
+    )
+};
+
 
 export function TextField(props: { [x: string]: any; name: any; label: any; placeholder: any; }) {
     const { name, label, placeholder, ...rest } = props;

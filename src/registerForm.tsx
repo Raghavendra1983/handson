@@ -333,22 +333,22 @@ const Register = (props: Props) => {
         >
             <>
                 {errorMessage && <Error message={errorMessage} />}
-
-                {Object.keys(registerFormSchema).map((key, ind) => {
-                    if (registerFormSchema[key].id === "register") {
-                        return (<div key={key} className="flex justify-between mt-3">
-                            {[getFormElement(key, registerFormSchema[key]),
-                            getFormElement("reset", registerFormSchema["reset"])]}
-                        </div>)
-                    } else if (registerFormSchema[key].id !== "reset") {
-                        return (<div key={key} >
-                            {getFormElement(key, registerFormSchema[key])}
-                        </div>)
-
-                    }
-
-                })}
-
+                <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+                    <div className="mb-4 lg:w-1/2 sm:w-full md:w-2/3">
+                        {Object.keys(registerFormSchema).map((key, ind) => {
+                            if (registerFormSchema[key].id === "register") {
+                                return (<div key={key} className="flex justify-between mt-3">
+                                    {[getFormElement(key, registerFormSchema[key]),
+                                    getFormElement("reset", registerFormSchema["reset"])]}
+                                </div>)
+                            } else if (registerFormSchema[key].id !== "reset") {
+                                return (<div key={key} >
+                                    {getFormElement(key, registerFormSchema[key])}
+                                </div>)
+                            }
+                        })}
+                    </div>
+                </div>
             </>
         </Form>
 

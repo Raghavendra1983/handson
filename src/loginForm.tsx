@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useReducer } from 'react';
-import { useForm } from "react-hook-form";
+import { observer } from "mobx-react";
 import './App.css';
 import { Form, TextField, SelectField, SubmitButton, GenericField } from './FormElements';
 import * as Yup from 'yup';
@@ -10,6 +10,7 @@ import loginReducer, { initialState } from 'reducers/loginReducer';
 import { Formik, replace, validateYupSchema } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { initForm, getFormElement } from 'utils/formUtils';
+import AuthStore from './store/AuthStore';
 
 export interface nameType {
     type: string;
@@ -48,6 +49,7 @@ function Login(): JSX.Element {
     const [errorMessage, setErrorMessage] = useState('');
     const [state, dispatch] = useReducer(loginReducer, initialState);
     const navigate = useNavigate();
+    const auth = new AuthStore();
 
     const loginFormSchema: loginFormSchemaType = {
         email: {
@@ -117,12 +119,11 @@ function Login(): JSX.Element {
 
             initialValues={formData}
             validationSchema={validationSchema}
-            onSubmit={onLogin}
+            onSubmit={auth.doLogin}
         >
             <>
-                {errorMessage && <Error message={errorMessage} />}
                 <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                    <div className="mb-4">
+                    <div className="mb-4 lg:w-1/2 sm:w-full md:w-2/3">
 
                         {Object.keys(loginFormSchema).map((key, ind) => {
                             console.log(ind);
@@ -146,4 +147,4 @@ function Login(): JSX.Element {
     );
 }
 
-export default Login;
+export default observer(Login);

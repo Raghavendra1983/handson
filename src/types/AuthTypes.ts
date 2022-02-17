@@ -4,3 +4,8 @@ export interface User {
     id: number,
     token: any;
 }
+export interface LoginInitValuesType {
+    email: string,
+    password: string,
+    serverError?: string
+}
