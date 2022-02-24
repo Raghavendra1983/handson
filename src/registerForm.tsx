@@ -3,6 +3,8 @@ import { loginFormSchemaType } from 'loginForm';
 import React, { useEffect, useState } from 'react';
 import { getFormElement, initForm } from 'utils/formUtils';
 import Error from './component/errorComponent';
+import AuthStore from './store/AuthStore';
+import RootStore from './store';
 
 type Props = {};
 
@@ -301,11 +303,12 @@ const Register = (props: Props) => {
         },
         reset: {
             id: "reset",
-            type: "button",
-            label: "Clear error",
+            type: "a",
+            label: "Login",
             placeholder: "",
             required: false,
             className: 'btn-secondary',
+            href: '/login'
             //onClick: () => setErrorMessage('')
 
         }
@@ -314,14 +317,16 @@ const Register = (props: Props) => {
     const [formData, setFormData] = useState({});
     const [validationSchema, setValidationSchema] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
+    const authStore = new AuthStore(new RootStore());
     useEffect(() => {
+        console.log("initform");
         initForm(registerFormSchema, setFormData, setValidationSchema);
-    }, []);
+    }, [initForm, setFormData, setValidationSchema]);
 
 
     const onRegister = async (values: any, { setSubmitting, resetForm, setStatus }: any) => {
         setErrorMessage('');
-        console.log(values);
+        console.log('onRegister', values);
 
     }
     return (
@@ -329,7 +334,7 @@ const Register = (props: Props) => {
 
             initialValues={formData}
             validationSchema={validationSchema}
-            onSubmit={onRegister}
+            onSubmit={authStore.doRegister}
         >
             <>
                 {errorMessage && <Error message={errorMessage} />}

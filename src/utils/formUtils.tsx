@@ -2,10 +2,13 @@ import { loginFormSchemaType, nameType, optionsType, _formDataType, _validationS
 import React from 'react';
 import * as Yup from 'yup';
 import { GenericField, SelectField } from '../FormElements';
+import useFormUtils from '../hooks/useFormUtils';
+
 
 export const initForm = (formSchema: loginFormSchemaType, setFormData: (arg0: _formDataType) => void, setValidationSchema: (arg0: any) => void) => {
     let _formData: _formDataType = {};
     let _validationSchema: _validationSchemaType = {};
+    console.log("initform");
 
     for (var key of Object.keys(formSchema)) {
         _formData[key] = "";
@@ -16,7 +19,7 @@ export const initForm = (formSchema: loginFormSchemaType, setFormData: (arg0: _f
             _validationSchema[key] = Yup.string().email()
         } else if (formSchema[key].type === "select") {
             _validationSchema[key] = Yup.string();
-        } else if (formSchema[key].type === "a") {
+        } else if (formSchema[key].type === "a" || formSchema[key].type === "link") {
             _validationSchema[key] = Yup.string().url();
         }
 
@@ -34,6 +37,9 @@ export const initForm = (formSchema: loginFormSchemaType, setFormData: (arg0: _f
     //globalValidationSchema = Yup.object().shape({ ..._validationSchema });
 }
 export const getFormElement = (elementName: string, elementSchema: nameType & optionsType) => {
+
+
+    console.log("getFormElement");
     const props = {
         type: elementSchema.type,
         name: elementName,
@@ -42,7 +48,8 @@ export const getFormElement = (elementName: string, elementSchema: nameType & op
         options: elementSchema.options,
         className: elementSchema.className,
         onClick: elementSchema.onClick,
-        id: elementSchema.id
+        id: elementSchema.id,
+        href: elementSchema.href
     };
 
 

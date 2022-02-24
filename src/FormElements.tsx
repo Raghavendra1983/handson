@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, { ComponentProps } from 'react';
+import React, { useCallback } from 'react';
 import {
     Formik,
     Form as FormikForm,
@@ -11,6 +11,7 @@ import {
     useFormik,
     FormikProps
 } from 'formik';
+import { func } from 'prop-types';
 
 
 export function Form(props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined }) {
@@ -76,15 +77,17 @@ export function SubmitButton(props: { [x: string]: any; title: any; }) {
         <button type="submit" {...rest} disabled={isSubmitting}>{title}</button>
     )
 }
-export function GenericField(props: { [x: string]: any; type: any; name: any; label: any; placeholder: any; options: any; }) {
-    const { type, name, label, className } = props;
+export const GenericField = (props: { [x: string]: any; type: any; name: any; label: any; placeholder: any; options: any; href: any }) => {
+    const { type, name, label, className, href } = props;
+    console.log(props);
     const { isValid } = useFormikContext();
     const val = (type === "button" || type === "submit") ? label : undefined;
 
     return (
         <>
             {(!val && label && type !== "a") && <label htmlFor={name}>{label}</label>}
-            {(type === "a") && <a href='#'>{label}</a>}
+            {(type === "a" && href) && <a href={href}>{label}</a>}
+            {(type === "a" && !href) && <a href="#">{label}</a>}
 
 
             {(!val) && type !== "a" && (
@@ -106,4 +109,4 @@ export function GenericField(props: { [x: string]: any; type: any; name: any; la
             <ErrorMessage name={name} render={msg => <div style={{ color: 'red' }} >{msg}</div>} />
         </>
     )
-}
+};

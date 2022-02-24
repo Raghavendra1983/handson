@@ -11,6 +11,7 @@ import { Formik, replace, validateYupSchema } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { initForm, getFormElement } from 'utils/formUtils';
 import AuthStore from './store/AuthStore';
+import RootStore from './store';
 
 export interface nameType {
     type: string;
@@ -19,6 +20,7 @@ export interface nameType {
     required: boolean;
     className?: string,
     id?: string,
+    href?: string,
     onClick?: () => void
 }
 export interface optionsObjectType {
@@ -49,7 +51,7 @@ function Login(): JSX.Element {
     const [errorMessage, setErrorMessage] = useState('');
     const [state, dispatch] = useReducer(loginReducer, initialState);
     const navigate = useNavigate();
-    const auth = new AuthStore();
+    const auth = new AuthStore(new RootStore());
 
     const loginFormSchema: loginFormSchemaType = {
         email: {
@@ -81,7 +83,25 @@ function Login(): JSX.Element {
             className: 'btn-secondary',
             placeholder: "",
             required: false
+        },
+        link: {
+            id: "register",
+            type: "a",
+            label: "Dont have an account",
+            className: 'btn-secondary',
+            placeholder: "",
+            required: false
+        },
+        target: {
+            id: "target",
+            type: "a",
+            label: "Register",
+            className: 'btn-secondary',
+            placeholder: "",
+            required: false,
+            href: '/register'
         }
+
     }
     useEffect(() => {
         initForm(loginFormSchema, setFormData, setValidationSchema);
@@ -134,7 +154,14 @@ function Login(): JSX.Element {
                                     getFormElement("a", loginFormSchema["a"])]}
 
                                 </div>)
-                            } else if (loginFormSchema[key].id !== "forget") {
+                            } else if (loginFormSchema[key].id === "register") {
+                                return (<div key={key} className="flex justify-between mt-3">
+                                    {[getFormElement(key, loginFormSchema[key]),
+                                    getFormElement("target", loginFormSchema["target"])]}
+
+                                </div>)
+                            }
+                            else if (loginFormSchema[key].id !== "forget" && loginFormSchema[key].id !== "target") {
                                 return (
                                     getFormElement(key, loginFormSchema[key])
                                 )
